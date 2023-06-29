@@ -10,8 +10,8 @@ vim.keymap.set("n", '"', 'ci"')
 
 vim.keymap.set("n", "<C-j>", "<C-w>j", opt)
 vim.keymap.set("n", "<C-k>", "<C-w>k", opt)
-vim.keymap.set("n", "<C-h>", "<C-w>h", opt)
-vim.keymap.set("n", "<C-l>", "<C-w>l", opt)
+vim.keymap.set("n", "<C-n>", "<C-w>h", opt)
+vim.keymap.set("n", "<C-m>", "<C-w>l", opt)
 
 vim.keymap.set("n", "H", "^", opt)
 vim.keymap.set("n", "L", "$", opt)
