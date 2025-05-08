@@ -164,10 +164,6 @@ if vim.g.vscode then
   map("n", "<leader>w", function() action("workbench.action.terminal.newInActiveWorkspace") end, { desc = "新建终端" })
   map("n", "<leader>0", function() action("workbench.action.tasks.runTask") end, { desc = "运行任务" })
   map("n", "<leader>r", function() action("workbench.action.tasks.reRunTask") end, { desc = "重新运行任务" })
-  map("n", "<leader>,", function()
-    action("workbench.panel.repl.view.focus")
-    action("repl.action.filter")
-  end, { desc = "REPL过滤" })
 
   -- REPL与特殊功能
   map("n", "Q", "q", { desc = "录制宏" })

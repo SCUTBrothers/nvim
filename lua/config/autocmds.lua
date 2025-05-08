@@ -6,9 +6,12 @@
 --
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
+--
+
+vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
 -- 保存上一次的输入法状态
-local last_im_select = ''
+local last_im_select = ""
 
 -- 创建自动命令组
 local im_select_group = vim.api.nvim_create_augroup("im_select", { clear = true })
@@ -17,7 +20,7 @@ local im_select_group = vim.api.nvim_create_augroup("im_select", { clear = true 
 vim.api.nvim_create_autocmd("InsertLeave", {
   group = im_select_group,
   callback = function()
-    last_im_select = vim.fn.system('/opt/homebrew/bin/macism')
+    last_im_select = vim.fn.system("/opt/homebrew/bin/macism")
   end,
 })
 
@@ -25,8 +28,8 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 vim.api.nvim_create_autocmd("InsertEnter", {
   group = im_select_group,
   callback = function()
-    if last_im_select ~= '' then
-      vim.fn.system('/opt/homebrew/bin/macism ' .. last_im_select)
+    if last_im_select ~= "" then
+      vim.fn.system("/opt/homebrew/bin/macism " .. last_im_select)
     end
   end,
 })
@@ -35,6 +38,7 @@ vim.api.nvim_create_autocmd("InsertEnter", {
 vim.api.nvim_create_autocmd("InsertLeave", {
   group = im_select_group,
   callback = function()
-    vim.fn.system('/opt/homebrew/bin/macism com.apple.keylayout.ABC')
+    vim.fn.system("/opt/homebrew/bin/macism com.apple.keylayout.ABC")
   end,
 })
+
