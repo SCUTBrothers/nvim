@@ -7,4 +7,7 @@ return {
     -- add a keymap
     keys[#keys + 1] = { "gh", vim.lsp.buf.hover }
   end,
+  opts = {
+    inlay_hints = { enabled = false },
+  },
 }
