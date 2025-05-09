@@ -10,7 +10,7 @@
 
 vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
-vim.api.nvim_add_user_command("CopyRelPath", function()
+vim.api.nvim_create_user_command("CopyRelPath", function()
   vim.api.nvim_call_function("setreg", { "+", vim.fn.fnamemodify(vim.fn.expand("%"), ":.") })
 end, {})
 
