@@ -271,10 +271,10 @@ if vim.g.vscode then
   end, { desc = "切换折叠" })
 
   -- 智能编辑与修复
-  map("n", "m", function()
+  map("n", "<leader>ca", function()
     action("editor.action.quickFix")
   end, { desc = "快速修复" })
-  map("v", "m", function()
+  map("v", "<leader>ca", function()
     action("editor.action.quickFix")
   end, { desc = "快速修复" })
   map("n", "<leader>t", function()
