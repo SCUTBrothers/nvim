@@ -10,6 +10,10 @@
 
 vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
+vim.api.nvim_add_user_command("CopyRelPath", function()
+  vim.api.nvim_call_function("setreg", { "+", vim.fn.fnamemodify(vim.fn.expand("%"), ":.") })
+end, {})
+
 -- 保存上一次的输入法状态
 local last_im_select = ""
 
@@ -41,4 +45,3 @@ vim.api.nvim_create_autocmd("InsertLeave", {
     vim.fn.system("/opt/homebrew/bin/macism com.apple.keylayout.ABC")
   end,
 })
-
