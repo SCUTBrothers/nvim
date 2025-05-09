@@ -6,7 +6,7 @@ return {
   opts = {
     -- add any opts here
     -- for example
-    provider = "openai",
+    provider = "azure",
     openai = {
       endpoint = "https://api.openai.com/v1",
       model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
@@ -14,6 +14,12 @@ return {
       temperature = 0,
       max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
       --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
+    },
+    azure = {
+      endpoint = "https://dic-gpt4-008.openai.azure.com",
+      deployment = "gpt4o",
+      api_version = "2024-12-01-preview",
+      max_completion_tokens = 16384,
     },
     behavior = {
       enable_cursor_planning_mode = true,
