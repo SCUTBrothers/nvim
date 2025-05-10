@@ -222,7 +222,7 @@
   "xur": {
     "prefix": "xur",
     "body": [
-      "const { data: data${CLIPBOARD/(.+)/${1:/capitalize}/},  run: run${CLIPBOARD/(.+)/${1:/capitalize}/}, runAsync: runAsync${CLIPBOARD/(.+)/${1:/capitalize}/}, loading: loading${CLIPBOARD/(.+)/${1:/capitalize}/}, } = useRequestHOC(${CLIPBOARD/(.+)/${1:/camelcase}/}, {",
+      "const { data: data_${CLIPBOARD},  run: run_${CLIPBOARD}, runAsync: runAsync_${CLIPBOARD}, loading: loading_${CLIPBOARD} } = useRequestHOC(${CLIPBOARD}, {",
       "  manual: true,",
       "});"
     ]
