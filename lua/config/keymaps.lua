@@ -345,7 +345,12 @@ else
   map("n", "<S-k>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
 
   -- 文件浏览
-  map("n", "-", "<cmd>Oil --float<cr>", { desc = "Open Parent Directory in Oil" })
+  map(
+    "n",
+    "-",
+    "<cmd>:lua require('mini.files').open(vim.api.nvim_buf_get_name(0), true)<cr>",
+    { desc = "Open mini files directory in current file" }
+  )
 
   -- explorer
   map("n", "<leader>yy", "<cmd>CopyRelPath<cr>", { desc = "Copy relative file path" })
