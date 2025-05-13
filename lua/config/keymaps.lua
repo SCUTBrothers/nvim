@@ -15,7 +15,6 @@ if vim.g.vscode then
   map("n", ":", function()
     action("workbench.action.showCommands")
   end, { desc = "显示命令面板" })
-  map("n", ",", "%", { desc = "匹配括号跳转" })
   map("o", "H", "^", { desc = "移动到行首" })
   map("o", "L", "$", { desc = "移动到行尾" })
   map("v", "H", "0", { desc = "移动到行首" })
@@ -24,7 +23,6 @@ if vim.g.vscode then
   map("v", ":", function()
     action("workbench.action.showCommands")
   end, { desc = "显示命令面板" })
-  map("v", "-", "%", { desc = "匹配括号跳转" })
 
   -- 标签和编辑器切换
   map("n", "J", function()
@@ -39,9 +37,6 @@ if vim.g.vscode then
   map("n", "<leader>2", function()
     action("workbench.action.focusRightGroup")
   end, { desc = "聚焦第二编辑器组" })
-  map("n", "<leader>i", function()
-    action("workbench.action.switchWindow")
-  end, { desc = "切换窗口" })
 
   -- 编辑器管理
   map("n", "<leader>be", function()
@@ -90,7 +85,6 @@ if vim.g.vscode then
   map("n", "<leader>sS", function()
     action("workbench.action.showAllSymbols")
   end, { desc = "显示所有符号" })
-  map("v", "s", "<leader><leader>s", { desc = "快速查找" })
 
   -- Git 相关操作
   map("n", "<leader>gg", function()
@@ -98,7 +92,7 @@ if vim.g.vscode then
   end, { desc = "Git检出" })
   map("n", "<leader>gb", function()
     action("git.branch")
-  end, { desc = "Git 分支" })
+  end, { desc = "新建 Git 分支" })
   map("n", "<leader>gc", function()
     action("git.openChange")
   end, { desc = "打开 Git 变更" })
@@ -123,18 +117,12 @@ if vim.g.vscode then
   map("n", "<leader>k", function()
     action("bookmarks.jumpToPrevious")
   end, { desc = "上一个书签" })
-  map("n", "_", function()
-    action("editor.action.marker.prev")
-    action("extension.vim_left")
-    action("extension.vim_escape")
-    action("extension.vim_right")
-  end, { desc = "上一个标记" })
   map("n", "[d", function()
     action("editor.action.marker.prev")
-  end, { desc = "下一个标记" })
+  end, { desc = "上一个问题" })
   map("n", "]d", function()
     action("editor.action.marker.next")
-  end, { desc = "下一个标记" })
+  end, { desc = "下一个问题" })
   map("n", "[c", function()
     action("workbench.action.editor.previousChange")
   end, { desc = "上一个变更" })
@@ -164,7 +152,7 @@ if vim.g.vscode then
   map("n", "gr", function()
     action("editor.action.referenceSearch.trigger")
   end, { desc = "查找引用" })
-  map("n", "gt", function()
+  map("n", "gy", function()
     action("editor.action.goToTypeDefinition")
   end, { desc = "转到类型定义" })
   map("n", "cd", function()
@@ -231,41 +219,13 @@ if vim.g.vscode then
     action("copyRelativeFilePath")
   end, { desc = "复制相对文件路径" })
 
-  -- 反引号块操作
-  map("n", "cag", "ca`", { desc = "修改一个反引号块" })
-  map("n", "cig", "ci`", { desc = "修改反引号块内容" })
-  map("n", "dag", "da`", { desc = "删除一个反引号块" })
-  map("n", "dig", "di`", { desc = "删除反引号块内容" })
-  map("n", "vag", "va`", { desc = "选择一个反引号块" })
-  map("n", "vig", "vi`", { desc = "选择反引号块内容" })
-  map("n", "yag", "ya`", { desc = "复制一个反引号块" })
-  map("n", "yig", "yi`", { desc = "复制反引号块内容" })
-
   -- UI 控制与视图
-  map("n", "<leader>ud", function()
-    action("workbench.debug.action.toggleRepl")
-  end, { desc = "切换调试REPL" })
-  map("n", "<leader>ue", function()
-    action("workbench.action.toggleSidebarVisibility")
-  end, { desc = "切换侧边栏可见性" })
   map("n", "<leader>ug", function()
     action("workbench.view.scm")
   end, { desc = "显示源代码管理" })
-  map("n", "<leader>um", function()
-    action("markdown-preview-enhanced.openPreviewToTheSide")
-  end, { desc = "打开Markdown预览" })
-  map("n", "<leader>uo", function()
-    action("outline.focus")
-  end, { desc = "聚焦大纲" })
   map("n", "<leader>up", function()
     action("workbench.view.extensions")
   end, { desc = "查看扩展" })
-  map("n", "<leader>us", function()
-    action("workbench.action.closeAuxiliaryBar")
-  end, { desc = "关闭辅助栏" })
-  map("n", "<leader>ut", function()
-    action("workbench.view.testing.focus")
-  end, { desc = "聚焦测试视图" })
   map("n", "<leader>v", function()
     action("editor.toggleFold")
   end, { desc = "切换折叠" })
@@ -287,14 +247,6 @@ if vim.g.vscode then
     action("editor.action.smartSelect.expand")
   end, { desc = "智能选择扩展" })
 
-  -- 聊天与内联工具
-  map("n", "gc", function()
-    action("inlineChat.start")
-  end, { desc = "启动内联聊天" })
-  map("v", "gc", function()
-    action("inlineChat.start")
-  end, { desc = "启动内联聊天" })
-
   -- 包围与Emmet
   map("v", "o", function()
     action("surround.with.templateLiteral")
@@ -315,10 +267,6 @@ if vim.g.vscode then
     action("extension.asciiTreeGeneratorRevertToText")
   end, { desc = "ASCII树恢复为文本" })
 
-  -- 终端与任务
-  map("n", "<leader>w", function()
-    action("workbench.action.terminal.newInActiveWorkspace")
-  end, { desc = "新建终端" })
   map("n", "<leader>0", function()
     action("workbench.action.tasks.runTask")
   end, { desc = "运行任务" })
@@ -330,11 +278,6 @@ if vim.g.vscode then
   map("n", "Q", "q", { desc = "录制宏" })
   map("v", "Q", "q", { desc = "退出visual模式" })
   map("v", "p", "pgvy", { desc = "粘贴并保持选择" })
-
-  -- 其他功能
-  map("n", "<leader>ls", function()
-    action("leetcode.searchProblem")
-  end, { desc = "LeetCode 搜索题目" })
 else
   -- 基础移动映射
   map("n", "H", "^", { desc = "move to line start" })
