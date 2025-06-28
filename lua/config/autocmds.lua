@@ -45,3 +45,13 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 --     end
 --   end,
 -- })
+--
+
+-- 移除注释行创建新行的时候自动添加注释前缀
+-- 移除自动注释选项
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "*",
+  callback = function()
+    vim.opt_local.formatoptions:remove({ "o", "r" })
+  end,
+})
