@@ -7,6 +7,10 @@ return {
     -- Set to false if you want some other plugin (e.g. netrw) to open when you edit directories.
     -- prevent oil take over neotree explorer
     default_file_explorer = false,
+    float = {
+      max_width = 0.5,
+      max_height = 0.5,
+    },
   },
   -- Optional dependencies
   dependencies = { { "echasnovski/mini.icons", opts = {} } },
