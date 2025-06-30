@@ -14,6 +14,12 @@ vim.api.nvim_create_user_command("CopyRelPath", function()
   vim.api.nvim_call_function("setreg", { "+", vim.fn.fnamemodify(vim.fn.expand("%"), ":.") })
 end, {})
 
+vim.api.nvim_create_user_command("CopyAbsPath", function()
+  local path = vim.fn.expand("%:p")
+  vim.fn.setreg("+", path)
+  print("Copied absolute path: " .. path)
+end, {})
+
 -- 创建自动命令组
 local im_select_group = vim.api.nvim_create_augroup("im_select", { clear = true })
 
