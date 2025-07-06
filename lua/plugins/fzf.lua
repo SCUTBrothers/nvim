@@ -1,3 +1,8 @@
+if true then
+  return {}
+else
+end
+
 return {
   "ibhagwan/fzf-lua",
   opts = {

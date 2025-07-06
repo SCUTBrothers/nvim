@@ -1,1 +1,8 @@
-{}
+{
+  "test-snippet": {
+    "prefix": "test-snippet",
+    "body": [
+      "let testVar"
+    ]
+  }
+}

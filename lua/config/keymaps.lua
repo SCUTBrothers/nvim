@@ -6,6 +6,8 @@ local map = vim.keymap.set
 -- delete default keymaps
 vim.keymap.del("i", "<A-j>")
 vim.keymap.del("i", "<A-k>")
+vim.keymap.del("n", "<A-j>")
+vim.keymap.del("n", "<A-k>")
 
 -- 基础移动映射
 map("n", "H", "^", { desc = "move to line start" })
@@ -55,3 +57,6 @@ vim.keymap.del("n", "<leader>ft")
 map("n", "<leader>ft", function()
   require("snacks").terminal(nil, { cwd = vim.fn.expand("%:p:h") })
 end, { desc = "Terminal (Dir of Current File)" })
+
+-- lsp
+map("n", "cd", vim.lsp.buf.rename, { desc = "LSP Rename" })
