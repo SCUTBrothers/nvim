@@ -4,10 +4,8 @@
 local map = vim.keymap.set
 
 -- delete default keymaps
-vim.keymap.del("i", "<A-j>")
-vim.keymap.del("i", "<A-k>")
-vim.keymap.del("n", "<A-j>")
-vim.keymap.del("n", "<A-k>")
+vim.keymap.del({ "i", "n", "v" }, "<A-j>")
+vim.keymap.del({ "i", "n", "v" }, "<A-k>")
 
 -- 基础移动映射
 map("n", "H", "^", { desc = "move to line start" })
@@ -23,24 +21,40 @@ map("n", "-", "<CMD>Oil --float<CR>", { desc = "Open parent directory" })
 -- explorer
 map("n", "<leader>yP", "<cmd>CopyAbsPath<cr>", { desc = "Copy relative file path" })
 map("n", "<leader>yp", "<cmd>CopyRelPath<cr>", { desc = "Copy relative file path" })
+map("n", "<leader>yY", function()
+  local path = vim.fn.expand("%:p")
+  vim.fn.setreg("+", "@" .. path)
+  print("已复制: @" .. path)
+end, { desc = "Copy absolute file path with @ prefix" })
+map("n", "<leader>yy", function()
+  local path = vim.fn.expand("%:.")
+  vim.fn.setreg("+", "@" .. path)
+  print("已复制: @" .. path)
+end, { desc = "Copy relative file path with @ prefix" })
 
-local function copy_file_line_range()
+local function copy_file_line_range(with_prefix)
   -- 获取当前文件的绝对路径
   local absolute_path = vim.fn.expand("%:p")
   -- 获取启动时的工作目录
-  local cwd = vim.fn.getcwd()
 
   -- 计算相对路径
   local filepath = vim.fn.fnamemodify(absolute_path, ":.")
 
-  local start_line = vim.fn.line("'<")
-  local end_line = vim.fn.line("'>")
+  -- 获取实际的行号（使用 v 和 . 来获取当前选择）
+  local start_line = vim.fn.getpos("v")[2]
+  local end_line = vim.fn.getpos(".")[2]
 
+  -- 确保 start_line 是较小的行号
+  if start_line > end_line then
+    start_line, end_line = end_line, start_line
+  end
+
+  local prefix = with_prefix and "@" or ""
   local result
   if start_line == end_line then
-    result = string.format("%s#L%d", filepath, start_line)
+    result = string.format("%s%s#L%d", prefix, filepath, start_line)
   else
-    result = string.format("%s#L%d-%d", filepath, start_line, end_line)
+    result = string.format("%s%s#L%d-%d", prefix, filepath, start_line, end_line)
   end
 
   vim.fn.setreg("+", result)
@@ -48,8 +62,16 @@ local function copy_file_line_range()
 end
 
 -- 创建键映射
-vim.keymap.set("v", "<leader>yp", copy_file_line_range, {
+vim.keymap.set("v", "<leader>yp", function()
+  copy_file_line_range(false)
+end, {
   desc = "复制相对于cwd的路径和行范围",
+})
+
+vim.keymap.set("v", "<leader>yy", function()
+  copy_file_line_range(true)
+end, {
+  desc = "复制相对于cwd的路径和行范围（带@前缀）",
 })
 
 -- terminal
