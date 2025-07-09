@@ -29,6 +29,8 @@ return {
       },
     },
 
+    -- 不自动插入 yaml  frontmatter
+    disable_frontmatter = true,
     -- see below for full list of options 👇
   },
 }
