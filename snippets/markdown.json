@@ -1,0 +1,339 @@
+{
+  "meta": {
+    "prefix": "meta",
+    "body": [
+      "---",
+      "",
+      "$1",
+      "",
+      "---"
+    ]
+  },
+  "bold": {
+    "prefix": "bb",
+    "body": [
+      "**$1**"
+    ]
+  },
+  "inline math": {
+    "prefix": "mm",
+    "body": [
+      "$$0$"
+    ]
+  },
+  "math block": {
+    "prefix": "math",
+    "body": [
+      "```math",
+      "$0",
+      "```"
+    ]
+  },
+  "day": {
+    "prefix": "today",
+    "body": [
+      "**Date**: $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE"
+    ]
+  },
+  "code block": {
+    "prefix": "code",
+    "body": [
+      "```$1",
+      "$2",
+      "```"
+    ]
+  },
+  "end code": {
+    "prefix": "codeend",
+    "body": [
+      "```"
+    ]
+  },
+  "inline code": {
+    "prefix": "gg",
+    "body": [
+      "`$1`"
+    ]
+  },
+  "py": {
+    "prefix": "py",
+    "body": [
+      "```python",
+      "$0",
+      "```"
+    ]
+  },
+  "html": {
+    "prefix": "html",
+    "body": [
+      "```html",
+      "$0",
+      "```"
+    ]
+  },
+  "js": {
+    "prefix": "js",
+    "body": [
+      "```javascript",
+      "$0",
+      "```"
+    ]
+  },
+  "ts": {
+    "prefix": "ts",
+    "body": [
+      "```typescript",
+      "$0",
+      "```"
+    ]
+  },
+  "tsx": {
+    "prefix": "tsx",
+    "body": [
+      "```tsx",
+      "$0",
+      "```"
+    ]
+  },
+  "json": {
+    "prefix": "json",
+    "body": [
+      "```json",
+      "$0",
+      "```"
+    ]
+  },
+  "shell": {
+    "prefix": "shell",
+    "body": [
+      "```shell",
+      "$0",
+      "```"
+    ]
+  },
+  "bash": {
+    "prefix": "bash",
+    "body": [
+      "```shell",
+      "$0",
+      "```"
+    ]
+  },
+  "text": {
+    "prefix": "text",
+    "body": [
+      "```text",
+      "$0",
+      "```"
+    ]
+  },
+  "oa": {
+    "prefix": "oa",
+    "body": [
+      "OpenAPI"
+    ]
+  },
+  "mermaid": {
+    "prefix": "mermaid",
+    "body": [
+      "```mermaid",
+      "$1",
+      "```",
+      ""
+    ]
+  },
+  "note": {
+    "prefix": "note",
+    "body": [
+      "💡 **Note**:"
+    ]
+  },
+  "warning": {
+    "prefix": "warning",
+    "body": [
+      "🧨 **Warning**:"
+    ]
+  },
+  "example": {
+    "prefix": "eg",
+    "body": [
+      "🌰  **Example**:"
+    ]
+  },
+  "think": {
+    "prefix": "think",
+    "body": [
+      "🗯 "
+    ]
+  },
+  "question": {
+    "prefix": "question",
+    "body": [
+      "❓**Question**: $0"
+    ]
+  },
+  "question mark": {
+    "prefix": "qq",
+    "body": [
+      "❓"
+    ]
+  },
+  "alert": {
+    "prefix": "alert",
+    "body": [
+      "❗ **Alert**: $1"
+    ]
+  },
+  "important": {
+    "prefix": "important",
+    "body": [
+      "❗ **Important**: $1"
+    ]
+  },
+  "!note": {
+    "prefix": "!note",
+    "body": [
+      "> [!NOTE]",
+      "> $1"
+    ]
+  },
+  "!caution": {
+    "prefix": "!caution",
+    "body": [
+      "> [!CAUTION]",
+      "> $1"
+    ]
+  },
+  "!tip": {
+    "prefix": "!tip",
+    "body": [
+      "> [!TIP]",
+      "> $1"
+    ]
+  },
+  "!important": {
+    "prefix": "!important",
+    "body": [
+      "> [!IMPORTANT]",
+      "> $1"
+    ]
+  },
+  "!warning": {
+    "prefix": "!warning",
+    "body": [
+      "> [!WARNING]",
+      "> $1"
+    ]
+  },
+  "!alert": {
+    "prefix": "!alert",
+    "body": [
+      "> [!CAUTION]",
+      "> $1"
+    ]
+  },
+  "cmd": {
+    "prefix": "cmd",
+    "body": [
+      "💻"
+    ]
+  },
+  "light": {
+    "prefix": "light",
+    "body": [
+      "💡"
+    ]
+  },
+  "todo": {
+    "prefix": "todo",
+    "body": [
+      "❎ TODO:"
+    ]
+  },
+  "done": {
+    "prefix": "done",
+    "body": [
+      "✅ DONE: "
+    ]
+  },
+  "xx": {
+    "prefix": "xx",
+    "body": [
+      "❌"
+    ]
+  },
+  "check": {
+    "prefix": "check",
+    "body": [
+      "✅"
+    ]
+  },
+  "notrecommend": {
+    "prefix": "norecommend",
+    "body": [
+      "🔴 **Not recommend**: "
+    ]
+  },
+  "recommend": {
+    "prefix": "recommend",
+    "body": [
+      "🟢 **Recommend**: "
+    ]
+  },
+  "readed": {
+    "prefix": "readed",
+    "body": [
+      "📖 **Readed**: "
+    ]
+  },
+  "highlights-code": {
+    "prefix": "highlights-code",
+    "body": [
+      "highlights(我从这个代码模块中学到了什么)"
+    ]
+  },
+  "conclusion": {
+    "prefix": "conclusion",
+    "body": [
+      "🎯"
+    ]
+  },
+  "off": {
+    "prefix": "off",
+    "body": [
+      "~~$0~~"
+    ]
+  },
+  "cursorrule": {
+    "prefix": "cursorrule",
+    "body": [
+      "---",
+      "description: git feature branch generate",
+      "globs: ",
+      "---",
+      "# $0"
+    ]
+  },
+  "key": {
+    "prefix": "key",
+    "body": [
+      "🔑"
+    ]
+  },
+  "cursorrules": {
+    "prefix": "cursorrules",
+    "body": [
+      "---",
+      "description: git feature branch generate",
+      "globs: ",
+      "alwaysApply: false",
+      "---"
+    ]
+  },
+  "mark": {
+    "prefix": "mark",
+    "body": [
+      "🔖"
+    ]
+  }
+}

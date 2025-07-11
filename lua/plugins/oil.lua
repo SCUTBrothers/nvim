@@ -11,6 +11,9 @@ return {
       max_width = 0.5,
       max_height = 0.5,
     },
+    view_options = {
+      show_hidden = true, -- Show hidden files by default
+    },
   },
   -- Optional dependencies
   dependencies = { { "echasnovski/mini.icons", opts = {} } },
