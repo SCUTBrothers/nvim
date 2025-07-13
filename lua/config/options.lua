@@ -6,8 +6,8 @@ vim.opt.list = false
 vim.opt.relativenumber = false
 
 -- 根据环境变量设置背景色
-local theme_mode = vim.env.THEME_MODE or "dark" -- 默认深色主题
-vim.opt.background = theme_mode
+-- local theme_mode = vim.env.THEME_MODE or "dark" -- 默认深色主题
+-- vim.opt.background = theme_mode
 
 -- 禁用光标下单词的高亮
 vim.opt.hlsearch = false -- 禁用搜索高亮

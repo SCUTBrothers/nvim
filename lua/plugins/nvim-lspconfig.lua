@@ -12,5 +12,8 @@ return {
     diagnostics = {
       virtual_text = false, -- 禁用行内诊断
     },
+    document_highlight = {
+      enabled = false,
+    },
   },
 }
