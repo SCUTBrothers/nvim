@@ -1,0 +1,256 @@
+{
+  "template placeholder": {
+    "prefix": "tt",
+    "body": [
+      "${$1}"
+    ]
+  },
+  "inline code": {
+    "prefix": "gg",
+    "body": [
+      "`$1`"
+    ]
+  },
+  "oo": {
+    "body": [
+      "{",
+      "$1",
+      "}"
+    ]
+  },
+  "cv": {
+    "prefix": "cv",
+    "body": [
+      "const $1 = $2"
+    ]
+  },
+  "cw": {
+    "body": [
+      "const $1$ = await $2;"
+    ]
+  },
+  "cm": {
+    "prefix": "cm",
+    "body": [
+      "const { $2 } = $1;"
+    ]
+  },
+  "id": {
+    "prefix": "id",
+    "body": [
+      "import $2 from \"$1\";"
+    ]
+  },
+  "ip": {
+    "prefix": "ip",
+    "body": [
+      "import { $2 } from \"$1\";"
+    ]
+  },
+  "ed": {
+    "prefix": "ed",
+    "body": [
+      "export default $1"
+    ]
+  },
+  "ep": {
+    "prefix": "ep",
+    "body": [
+      "export { $2 } from \"$1\";"
+    ]
+  },
+  "ee": {
+    "prefix": "ee",
+    "body": [
+      "export $0"
+    ]
+  },
+  "ei": {
+    "prefix": "ei",
+    "body": [
+      "export interface $1 {\n  $2\n}"
+    ]
+  },
+  "ar": {
+    "prefix": "ar",
+    "body": [
+      "($1) => {$2}"
+    ]
+  },
+  "afn": {
+    "prefix": "afn",
+    "body": [
+      "async function $1() {",
+      "  $2",
+      "}"
+    ]
+  },
+  "fn": {
+    "prefix": "fn",
+    "body": [
+      "function $1() {",
+      "  $2",
+      "}"
+    ]
+  },
+  "aar": {
+    "prefix": "aar",
+    "body": [
+      "async ($1) => {$0};"
+    ]
+  },
+  "aro": {
+    "prefix": "aro",
+    "body": [
+      "($1) => ({ $2 });"
+    ]
+  },
+  "aaro": {
+    "prefix": "aaro",
+    "body": [
+      "async ($1) => ({ $2 });"
+    ]
+  },
+  "pass": {
+    "prefix": "pass",
+    "body": [
+      "console.log(\"pass\");"
+    ]
+  },
+  "hlog": {
+    "prefix": "hlog",
+    "body": [
+      "console.log(",
+      "  \"%c $2$\",",
+      "  \"color: #1890ff; background: #f0f2f5; padding: 2px 4px; border-radius: 2px; font-size: 13px;\",",
+      "  $1",
+      ");"
+    ]
+  },
+  "info": {
+    "prefix": "info",
+    "body": [
+      "console.info(\"------ $1 ------\");"
+    ]
+  },
+  "bc": {
+    "prefix": "bc",
+    "body": [
+      "/**",
+      " * $0",
+      " */"
+    ]
+  },
+  "ibc": {
+    "prefix": "ibc",
+    "body": [
+      "/** $0 */"
+    ]
+  },
+  "ims": {
+    "prefix": "ims",
+    "body": [
+      "import styles from \"./index.module.scss\";"
+    ]
+  },
+  "us": {
+    "prefix": "us",
+    "body": [
+      "const [$1, set${1/(.)/${1:/upcase}/}] = useState($2);"
+    ]
+  },
+  "ue": {
+    "prefix": "ue",
+    "body": [
+      "useEffect(() => {",
+      "  $1;",
+      "}, []);"
+    ]
+  },
+  "ur": {
+    "prefix": "ur",
+    "body": [
+      "const $1 = useRef($2);"
+    ]
+  },
+  "um": {
+    "prefix": "um",
+    "body": [
+      "const $1 = useMemo(() => {",
+      "  $2;",
+      "}, []);"
+    ]
+  },
+  "uc": {
+    "prefix": "uc",
+    "body": [
+      "const $1 = useCallback(() => {",
+      "  $2",
+      "}, [])"
+    ]
+  },
+  "imc": {
+    "prefix": "imc",
+    "body": [
+      "import {useColumns} from \"./columns\";"
+    ]
+  },
+  "imf": {
+    "prefix": "imf",
+    "body": [
+      "import {useFormItems} from \"./formItems\";"
+    ]
+  },
+  "xuc": {
+    "prefix": "xuc",
+    "body": [
+      "const columns = useColumns();"
+    ]
+  },
+  "xuf": {
+    "prefix": "xuf",
+    "body": [
+      "const formItems = useFormItems();"
+    ]
+  },
+  "xut": {
+    "prefix": "xut",
+    "body": [
+      "const $ = useTranslation(\"$1\");"
+    ]
+  },
+  "xur": {
+    "prefix": "xur",
+    "body": [
+      "const { data: data_${CLIPBOARD},  run: run_${CLIPBOARD}, runAsync: runAsync_${CLIPBOARD}, loading: loading_${CLIPBOARD} } = useRequestHOC(${CLIPBOARD}, {",
+      "  manual: true,",
+      "});"
+    ]
+  },
+  "xux": {
+    "prefix": "xux",
+    "body": [
+      "const $1 = useXModal();"
+    ]
+  },
+  "xt": {
+    "prefix": "xt",
+    "body": [
+      "$(\"$1\");"
+    ]
+  },
+  "shebang": {
+    "prefix": "shebang",
+    "body": [
+      "#!/usr/bin/env node"
+    ]
+  },
+  "forloop": {
+    "prefix": "forloop",
+    "body": [
+      "for (let ${1:i}= 0; ${1:i} < $2; ${1:i}++) {",
+      "  $0",
+      "}"
+    ]
+  }
+}
