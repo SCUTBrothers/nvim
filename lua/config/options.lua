@@ -3,7 +3,7 @@
 -- Add any additional options here
 
 vim.opt.list = false
-vim.opt.relativenumber = false
+vim.opt.relativenumber = true
 
 -- 根据环境变量设置背景色
 -- local theme_mode = vim.env.THEME_MODE or "dark" -- 默认深色主题
@@ -13,4 +13,7 @@ vim.opt.relativenumber = false
 vim.opt.hlsearch = false -- 禁用搜索高亮
 
 -- 禁用 conceal 功能，防止 markdown 预览
-vim.opt.conceallevel = 0
+vim.opt.conceallevel = 1
+
+-- 将-添加为word分隔符
+vim.opt.iskeyword:append("-")
