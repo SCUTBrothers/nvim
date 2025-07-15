@@ -83,3 +83,12 @@ end, { desc = "Terminal (Dir of Current File)" })
 
 -- lsp
 map("n", "cd", vim.lsp.buf.rename, { desc = "LSP Rename" })
+
+-- Open current directory in IDE
+map("n", "<leader>iv", function()
+  vim.fn.system("code .")
+end, { desc = "Open in VS Code" })
+
+map("n", "<leader>iw", function()
+  vim.fn.system("webstorm .")
+end, { desc = "Open in WebStorm" })
