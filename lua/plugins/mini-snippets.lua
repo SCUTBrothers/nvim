@@ -1,7 +1,5 @@
 return {
   "echasnovski/mini.snippets",
-  event = "InsertEnter", -- don't depend on other plugins to load...
-  dependencies = "rafamadriz/friendly-snippets",
   opts = {
     mappings = {
       -- 默认使用 <c-c> 来退出snippet session并清除range extmarks
