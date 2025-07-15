@@ -10,6 +10,7 @@ vim.keymap.del({ "i", "n", "v" }, "<A-k>")
 -- 基础移动映射
 map("n", "H", "^", { desc = "move to line start" })
 map("n", "L", "$", { desc = "move to line start" })
+map("i", "<C-l>", "<Right>", { desc = "Move Right" })
 
 -- buffer操作
 map("n", "<S-j>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
