@@ -89,6 +89,11 @@ map("n", "<leader>iv", function()
   vim.fn.system("code .")
 end, { desc = "Open in VS Code" })
 
+-- Open current directory in IDE
+map("n", "<leader>ic", function()
+  vim.fn.system("code .")
+end, { desc = "Open in Cursor" })
+
 map("n", "<leader>iw", function()
   vim.fn.system("webstorm .")
 end, { desc = "Open in WebStorm" })
