@@ -1,0 +1,6 @@
+{
+  "vscode vim command": {
+    "prefix": "vimcommand",
+    "body": ["{", "   \"before\": [],", "   \"commands\": []", "}"]
+  }
+}
