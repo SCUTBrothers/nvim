@@ -27,31 +27,33 @@ local im_select_group = vim.api.nvim_create_augroup("im_select", { clear = true 
 vim.api.nvim_create_autocmd("InsertLeave", {
   group = im_select_group,
   callback = function()
+    -- 设置按键序列的超时时间（毫秒）: 当你输入一个可能是映射开头的按键时，Vim 会等待 timeoutlen 毫秒来判断你是否要输入一个完整的按键映射
+    -- 这个可能会导致其他的remap映射失效
+    vim.opt.timeoutlen = 0
     vim.fn.system("/opt/homebrew/bin/macism com.apple.keylayout.ABC")
   end,
 })
 
--- -- 保存上一次的输入法状态
--- local last_im_select = ""
+-- 保存上一次的输入法状态
+local last_im_select = ""
 
--- -- 在退出插入模式时保存当前输入法状态
--- vim.api.nvim_create_autocmd("InsertLeave", {
---   group = im_select_group,
---   callback = function()
---     last_im_select = vim.fn.system("/opt/homebrew/bin/macism")
---   end,
--- })
---
--- -- 在进入插入模式时恢复输入法状态
--- vim.api.nvim_create_autocmd("InsertEnter", {
---   group = im_select_group,
---   callback = function()
---     if last_im_select ~= "" then
---       vim.fn.system("/opt/homebrew/bin/macism " .. last_im_select)
---     end
---   end,
--- })
---
+-- 在退出插入模式时保存当前输入法状态
+vim.api.nvim_create_autocmd("InsertLeave", {
+  group = im_select_group,
+  callback = function()
+    last_im_select = vim.fn.system("/opt/homebrew/bin/macism")
+  end,
+})
+
+-- 在进入插入模式时恢复输入法状态
+vim.api.nvim_create_autocmd("InsertEnter", {
+  group = im_select_group,
+  callback = function()
+    if last_im_select ~= "" then
+      vim.fn.system("/opt/homebrew/bin/macism " .. last_im_select)
+    end
+  end,
+})
 
 -- 移除注释行创建新行的时候自动添加注释前缀
 -- 移除自动注释选项
