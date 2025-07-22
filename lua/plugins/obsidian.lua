@@ -29,6 +29,11 @@ return {
       },
     },
 
+    -- 禁用 Obsidian 的 UI, 不需要出现符号渲染
+    ui = {
+      enabled = false,
+    },
+
     -- 不自动插入 yaml  frontmatter
     disable_frontmatter = true,
     -- see below for full list of options 👇
