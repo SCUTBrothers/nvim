@@ -1,0 +1,33 @@
+{
+  "name": "my-custom-snippets",
+  "description": "Personal custom snippets for Neovim",
+  "version": "1.0.0",
+  "contributes": {
+    "snippets": [
+      {
+        "language": "javascript",
+        "path": "./javascript.json"
+      },
+      {
+        "language": "typescript",
+        "path": "./typescript.json"
+      },
+      {
+        "language": "typescriptreact",
+        "path": "./tsx.json"
+      },
+      {
+        "language": "lua",
+        "path": "./lua.json"
+      },
+      {
+        "language": "markdown",
+        "path": "./markdown.json"
+      },
+      {
+        "language": "jsonc",
+        "path": "./jsonc.json"
+      }
+    ]
+  }
+}
