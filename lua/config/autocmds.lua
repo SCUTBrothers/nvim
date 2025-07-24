@@ -63,3 +63,104 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.formatoptions:remove({ "o", "r" })
   end,
 })
+
+-- Markdown标题转目录树结构
+local function markdown_to_tree()
+  -- 获取visual模式下选中的文本
+  local start_line = vim.fn.line("'<") - 1 -- 转换为0-based索引
+  local end_line = vim.fn.line("'>") -- 包含结束行
+  local lines = vim.api.nvim_buf_get_lines(0, start_line, end_line, false)
+
+  if #lines == 0 then
+    print("没有选中任何内容")
+    return
+  end
+
+  -- 解析markdown标题
+  local items = {}
+  for _, line in ipairs(lines) do
+    local level = 0
+    local text = line
+
+    -- 计算标题级别
+    while text:sub(1, 1) == "#" do
+      level = level + 1
+      text = text:sub(2)
+    end
+
+    if level > 0 then
+      text = text:gsub("^%s+", ""):gsub("%s+$", "") -- 去除首尾空格
+      table.insert(items, { level = level, text = text })
+    end
+  end
+
+  if #items == 0 then
+    print("没有找到markdown标题")
+    return
+  end
+
+  -- 生成目录树
+  local result = {}
+
+  for i, item in ipairs(items) do
+    local level = item.level
+    local text = item.text
+
+    -- 检查是否是同级别的最后一个
+    local is_last = true
+    for j = i + 1, #items do
+      if items[j].level <= level then
+        if items[j].level == level then
+          is_last = false
+        end
+        break
+      end
+    end
+
+    -- 生成前缀和连接符
+    local line = ""
+    if level == 1 then
+      line = text
+    else
+      -- 计算前缀
+      local prefix = ""
+      for depth = 2, level do
+        -- 检查这个深度是否还有后续项目
+        local has_more_at_depth = false
+        for k = i + 1, #items do
+          if items[k].level < depth then
+            break
+          elseif items[k].level == depth then
+            has_more_at_depth = true
+            break
+          end
+        end
+
+        if depth == level then
+          -- 当前级别
+          local connector = is_last and "└── " or "├── "
+          prefix = prefix .. connector
+        else
+          -- 父级别
+          if has_more_at_depth then
+            prefix = prefix .. "│   "
+          else
+            prefix = prefix .. "    "
+          end
+        end
+      end
+      line = prefix .. text
+    end
+
+    table.insert(result, line)
+  end
+
+  -- 替换选中的内容
+  vim.api.nvim_buf_set_lines(0, start_line, end_line, false, result)
+end
+
+-- 创建用户命令
+vim.api.nvim_create_user_command("MarkdownToTree", markdown_to_tree, { range = true })
+
+-- 设置visual模式快捷键
+vim.keymap.set("v", "<leader>mt", markdown_to_tree, { desc = "Convert markdown headers to directory tree" })
