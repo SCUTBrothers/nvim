@@ -64,103 +64,133 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- Markdown标题转目录树结构
-local function markdown_to_tree()
-  -- 获取visual模式下选中的文本
-  local start_line = vim.fn.line("'<") - 1 -- 转换为0-based索引
-  local end_line = vim.fn.line("'>") -- 包含结束行
-  local lines = vim.api.nvim_buf_get_lines(0, start_line, end_line, false)
+-- ============================================================================
+-- Markdown ↔ Tree 转换功能
+-- ============================================================================
 
+-- 获取 visual selection 的内容
+local function get_visual_selection()
+  local start_line = vim.fn.line("'<")
+  local end_line = vim.fn.line("'>")
+  return vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false), start_line, end_line
+end
+
+-- 替换 visual selection 的内容
+local function replace_visual_selection(lines, start_line, end_line)
+  vim.api.nvim_buf_set_lines(0, start_line - 1, end_line, false, lines)
+end
+
+-- 解析 markdown 标题
+local function parse_markdown_headers(lines)
+  local headers = {}
+  for _, line in ipairs(lines) do
+    -- 清理异常字符
+    line = line:gsub("[\128-\255]", ""):gsub("<80>", "")
+    
+    local trimmed = line:match("^%s*(.-)%s*$") -- 去除首尾空格
+    if trimmed:match("^#+%s") then
+      local level = 0
+      local content = trimmed
+      
+      -- 计算 # 的数量
+      while content:sub(1, 1) == "#" do
+        level = level + 1
+        content = content:sub(2)
+      end
+      
+      content = content:match("^%s*(.*)") or "" -- 去除开头空格
+      if content ~= "" then
+        table.insert(headers, { level = level, content = content })
+      end
+    end
+  end
+  return headers
+end
+
+-- 将标题转换为树形结构
+local function headers_to_tree(headers)
+  if #headers == 0 then return {} end
+  
+  local result = {}
+  
+  for i, header in ipairs(headers) do
+    local level = header.level
+    local content = header.content
+    
+    if level == 1 then
+      -- 根节点
+      table.insert(result, content)
+    else
+      -- 子节点，需要添加树形前缀
+      local prefix = ""
+      
+      -- 计算缩进和连接符
+      for depth = 2, level do
+        if depth == level then
+          -- 当前层级，判断是否是最后一个
+          local is_last = true
+          for j = i + 1, #headers do
+            if headers[j].level == level then
+              is_last = false
+              break
+            elseif headers[j].level < level then
+              break
+            end
+          end
+          prefix = prefix .. (is_last and "└── " or "├── ")
+        else
+          -- 父层级，判断是否还有同级后续节点
+          local has_more = false
+          for j = i + 1, #headers do
+            if headers[j].level == depth then
+              has_more = true
+              break
+            elseif headers[j].level < depth then
+              break
+            end
+          end
+          prefix = prefix .. (has_more and "│   " or "    ")
+        end
+      end
+      
+      table.insert(result, prefix .. content)
+    end
+  end
+  
+  return result
+end
+
+-- Markdown → Tree 主函数
+local function markdown_to_tree()
+  local lines, start_line, end_line = get_visual_selection()
+  
   if #lines == 0 then
     print("没有选中任何内容")
     return
   end
-
-  -- 解析markdown标题
-  local items = {}
-  for _, line in ipairs(lines) do
-    local level = 0
-    local text = line
-
-    -- 计算标题级别
-    while text:sub(1, 1) == "#" do
-      level = level + 1
-      text = text:sub(2)
-    end
-
-    if level > 0 then
-      text = text:gsub("^%s+", ""):gsub("%s+$", "") -- 去除首尾空格
-      table.insert(items, { level = level, text = text })
-    end
-  end
-
-  if #items == 0 then
-    print("没有找到markdown标题")
+  
+  local headers = parse_markdown_headers(lines)
+  if #headers == 0 then
+    print("没有找到 markdown 标题")
     return
   end
-
-  -- 生成目录树
-  local result = {}
-
-  for i, item in ipairs(items) do
-    local level = item.level
-    local text = item.text
-
-    -- 检查是否是同级别的最后一个
-    local is_last = true
-    for j = i + 1, #items do
-      if items[j].level <= level then
-        if items[j].level == level then
-          is_last = false
-        end
-        break
-      end
-    end
-
-    -- 生成前缀和连接符
-    local line = ""
-    if level == 1 then
-      line = text
-    else
-      -- 计算前缀
-      local prefix = ""
-      for depth = 2, level do
-        -- 检查这个深度是否还有后续项目
-        local has_more_at_depth = false
-        for k = i + 1, #items do
-          if items[k].level < depth then
-            break
-          elseif items[k].level == depth then
-            has_more_at_depth = true
-            break
-          end
-        end
-
-        if depth == level then
-          -- 当前级别
-          local connector = is_last and "└── " or "├── "
-          prefix = prefix .. connector
-        else
-          -- 父级别
-          if has_more_at_depth then
-            prefix = prefix .. "│   "
-          else
-            prefix = prefix .. "    "
-          end
-        end
-      end
-      line = prefix .. text
-    end
-
-    table.insert(result, line)
-  end
-
-  -- 替换选中的内容
-  vim.api.nvim_buf_set_lines(0, start_line, end_line, false, result)
+  
+  local tree_lines = headers_to_tree(headers)
+  replace_visual_selection(tree_lines, start_line, end_line)
 end
 
--- 创建用户命令
-vim.api.nvim_create_user_command("MarkdownToTree", markdown_to_tree, { range = true })
 
--- 设置visual模式快捷键
-vim.keymap.set("v", "<leader>mt", markdown_to_tree, { desc = "Convert markdown headers to directory tree" })
+-- ============================================================================
+-- 用户命令和快捷键
+-- ============================================================================
+
+-- 创建用户命令
+vim.api.nvim_create_user_command("MarkdownToTree", markdown_to_tree, { 
+  desc = "Convert markdown headers to directory tree" 
+})
+
+-- 设置快捷键
+vim.keymap.set("v", "<leader>mt", markdown_to_tree, { 
+  desc = "Convert markdown headers to directory tree" 
+})
+
