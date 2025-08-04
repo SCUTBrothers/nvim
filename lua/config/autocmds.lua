@@ -113,48 +113,46 @@ local function headers_to_tree(headers)
   
   local result = {}
   
+  -- 添加根目录标识
+  table.insert(result, ".")
+  
   for i, header in ipairs(headers) do
     local level = header.level
     local content = header.content
     
-    if level == 1 then
-      -- 根节点
-      table.insert(result, content)
-    else
-      -- 子节点，需要添加树形前缀
-      local prefix = ""
-      
-      -- 计算缩进和连接符
-      for depth = 2, level do
-        if depth == level then
-          -- 当前层级，判断是否是最后一个
-          local is_last = true
-          for j = i + 1, #headers do
-            if headers[j].level == level then
-              is_last = false
-              break
-            elseif headers[j].level < level then
-              break
-            end
+    -- 所有标题都作为子节点处理，在原级别基础上统一缩进
+    local prefix = ""
+    
+    -- 计算缩进和连接符，从级别1开始都需要前缀
+    for depth = 1, level do
+      if depth == level then
+        -- 当前层级，判断是否是最后一个
+        local is_last = true
+        for j = i + 1, #headers do
+          if headers[j].level == level then
+            is_last = false
+            break
+          elseif headers[j].level < level then
+            break
           end
-          prefix = prefix .. (is_last and "└── " or "├── ")
-        else
-          -- 父层级，判断是否还有同级后续节点
-          local has_more = false
-          for j = i + 1, #headers do
-            if headers[j].level == depth then
-              has_more = true
-              break
-            elseif headers[j].level < depth then
-              break
-            end
-          end
-          prefix = prefix .. (has_more and "│   " or "    ")
         end
+        prefix = prefix .. (is_last and "└── " or "├── ")
+      else
+        -- 父层级，判断是否还有同级后续节点
+        local has_more = false
+        for j = i + 1, #headers do
+          if headers[j].level == depth then
+            has_more = true
+            break
+          elseif headers[j].level < depth then
+            break
+          end
+        end
+        prefix = prefix .. (has_more and "│   " or "    ")
       end
-      
-      table.insert(result, prefix .. content)
     end
+    
+    table.insert(result, prefix .. content)
   end
   
   return result
