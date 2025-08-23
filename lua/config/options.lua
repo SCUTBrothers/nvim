@@ -3,7 +3,7 @@
 -- Add any additional options here
 
 -- Fix XDG_RUNTIME_DIR for WSL
-if vim.fn.has('wsl') == 1 then
+if vim.fn.has("wsl") == 1 then
   local uid = vim.fn.system("id -u"):gsub("%s+", "")
   local runtime_dir = "/tmp/nvim-runtime-" .. uid
   vim.fn.system("mkdir -p " .. runtime_dir)
@@ -27,16 +27,16 @@ vim.opt.conceallevel = 0
 vim.opt.iskeyword:append("-")
 
 -- ~/.config/nvim/lua/config/options.lua 或 init.lua
-if vim.fn.has('wsl') == 1 then
+if vim.fn.has("wsl") == 1 then
   vim.g.clipboard = {
-    name = 'win32yank-wsl',
+    name = "win32yank-wsl",
     copy = {
-      ['+'] = 'win32yank.exe -i --crlf',
-      ['*'] = 'win32yank.exe -i --crlf',
+      ["+"] = "win32yank.exe -i --crlf",
+      ["*"] = "win32yank.exe -i --crlf",
     },
     paste = {
-      ['+'] = 'win32yank.exe -o --lf',
-      ['*'] = 'win32yank.exe -o --lf',
+      ["+"] = "win32yank.exe -o --lf",
+      ["*"] = "win32yank.exe -o --lf",
     },
     cache_enabled = 0,
   }
@@ -44,3 +44,5 @@ end
 
 -- 启用系统剪贴板
 vim.opt.clipboard = "unnamedplus"
+
+vim.opt.autoread = true
