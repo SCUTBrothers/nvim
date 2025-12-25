@@ -20,7 +20,7 @@ vim.opt.relativenumber = true
 -- 禁用光标下单词的高亮
 vim.opt.hlsearch = false -- 禁用搜索高亮
 
--- 禁用 conceal 功能，防止 markdown 预览
+-- 禁用 conceal 功能(vim.opt.conceallevel = 0)，防止 markdown 预览
 vim.opt.conceallevel = 0
 
 -- 将-添加为word分隔符

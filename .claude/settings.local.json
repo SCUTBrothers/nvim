@@ -9,7 +9,18 @@
       "Bash(rm:*)",
       "Bash(mkdir:*)",
       "Bash(echo $XDG_RUNTIME_DIR)",
-      "Bash(export:*)"
+      "Bash(export:*)",
+      "Bash(node --version)",
+      "Bash(node -e:*)",
+      "Bash(node -p:*)",
+      "Bash(node:*)",
+      "Bash(nvm ls-remote:*)",
+      "Bash(nvm install:*)",
+      "Bash(nvm use:*)",
+      "Bash(source ~/.nvm/nvm.sh)",
+      "Bash(nvm alias:*)",
+      "Bash(nvm current:*)",
+      "Bash(git add:*)"
     ],
     "deny": []
   }

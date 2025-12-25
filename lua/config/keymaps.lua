@@ -10,6 +10,7 @@ vim.keymap.del({ "i", "n", "v" }, "<A-k>")
 -- 基础移动映射
 map("n", "H", "^", { desc = "move to line start" })
 map("n", "L", "$", { desc = "move to line start" })
+map("n", "yL", "yg_", { desc = "move to line end" })
 map("i", "<C-l>", "<Right>", { desc = "Move Right" })
 
 -- buffer操作
@@ -19,61 +20,21 @@ map("n", "<S-k>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
 -- 文件浏览
 map("n", "-", "<CMD>Oil --float<CR>", { desc = "Open parent directory" })
 
--- explorer
-map("n", "<leader>yP", "<cmd>CopyAbsPath<cr>", { desc = "Copy relative file path" })
-map("n", "<leader>yp", "<cmd>CopyRelPath<cr>", { desc = "Copy relative file path" })
-map("n", "<leader>yY", function()
-  local path = vim.fn.expand("%:p")
-  vim.fn.setreg("+", "@" .. path)
-  print("已复制: @" .. path)
-end, { desc = "Copy absolute file path with @ prefix" })
-map("n", "<leader>yy", function()
-  local path = vim.fn.expand("%:.")
-  vim.fn.setreg("+", "@" .. path)
-  print("已复制: @" .. path)
-end, { desc = "Copy relative file path with @ prefix" })
+-- ============================================================================
+-- 路径复制（与 VSCode 插件保持一致）
+-- ============================================================================
+-- 文件路径
+map("n", "<leader>yy", "<cmd>CopyFileRelative<cr>", { desc = "Copy file relative path" })
+map("n", "<leader>ya", "<cmd>CopyFileAbsolute<cr>", { desc = "Copy file absolute path" })
+-- 工作区
+map("n", "<leader>yw", "<cmd>CopyWorkspaceRoot<cr>", { desc = "Copy workspace root path" })
+-- 文件夹路径
+map("n", "<leader>yfy", "<cmd>CopyFolderRelative<cr>", { desc = "Copy folder relative path" })
+map("n", "<leader>yfa", "<cmd>CopyFolderAbsolute<cr>", { desc = "Copy folder absolute path" })
 
-local function copy_file_line_range(with_prefix)
-  -- 获取当前文件的绝对路径
-  local absolute_path = vim.fn.expand("%:p")
-  -- 获取启动时的工作目录
-
-  -- 计算相对路径
-  local filepath = vim.fn.fnamemodify(absolute_path, ":.")
-
-  -- 获取实际的行号（使用 v 和 . 来获取当前选择）
-  local start_line = vim.fn.getpos("v")[2]
-  local end_line = vim.fn.getpos(".")[2]
-
-  -- 确保 start_line 是较小的行号
-  if start_line > end_line then
-    start_line, end_line = end_line, start_line
-  end
-
-  local prefix = with_prefix and "@" or ""
-  local result
-  if start_line == end_line then
-    result = string.format("%s%s#L%d", prefix, filepath, start_line)
-  else
-    result = string.format("%s%s#L%d-%d", prefix, filepath, start_line, end_line)
-  end
-
-  vim.fn.setreg("+", result)
-  print("已复制: " .. result)
-end
-
--- 创建键映射
-vim.keymap.set("v", "<leader>yp", function()
-  copy_file_line_range(false)
-end, {
-  desc = "复制相对于cwd的路径和行范围",
-})
-
-vim.keymap.set("v", "<leader>yy", function()
-  copy_file_line_range(true)
-end, {
-  desc = "复制相对于cwd的路径和行范围（带@前缀）",
-})
+-- Visual 模式（带行号）
+map("v", "<leader>yy", "<cmd>CopyFileRelative<cr>", { desc = "Copy file relative path with line numbers" })
+map("v", "<leader>ya", "<cmd>CopyFileAbsolute<cr>", { desc = "Copy file absolute path with line numbers" })
 
 -- terminal
 vim.keymap.del("n", "<leader>ft")
@@ -84,16 +45,36 @@ end, { desc = "Terminal (Dir of Current File)" })
 -- lsp
 map("n", "cd", vim.lsp.buf.rename, { desc = "LSP Rename" })
 
--- Open current directory in IDE
-map("n", "<leader>iv", function()
-  vim.fn.system("code .")
-end, { desc = "Open in VS Code" })
+-- ============================================================================
+-- 外部编辑器配置
+-- ============================================================================
+-- 可用编辑器: "code" (VS Code), "cursor" (Cursor)
+vim.g.external_editor = "cursor"
 
--- Open current directory in IDE
-map("n", "<leader>ic", function()
-  vim.fn.system("code .")
-end, { desc = "Open in Cursor" })
+local function open_in_editor(editor)
+  editor = editor or vim.g.external_editor
+  local file = vim.api.nvim_buf_get_name(0)
 
-map("n", "<leader>iw", function()
-  vim.fn.system("webstorm .")
-end, { desc = "Open in WebStorm" })
+  if file == "" then
+    vim.notify("No file for current buffer", vim.log.levels.WARN)
+    return
+  end
+
+  local line = vim.fn.line(".")
+  local col = vim.fn.col(".")
+  local target = string.format("%s:%d:%d", file, line, col)
+
+  vim.fn.jobstart({ editor, "--reuse-window", "--goto", target }, { detach = true })
+end
+
+-- 用户命令
+vim.api.nvim_create_user_command("EditorHere", function() open_in_editor() end, {})
+vim.api.nvim_create_user_command("EditorSet", function(opts)
+  vim.g.external_editor = opts.args
+  vim.notify("External editor set to: " .. opts.args, vim.log.levels.INFO)
+end, { nargs = 1, complete = function() return { "code", "cursor" } end })
+
+-- 快捷键
+map("n", "<leader>io", function() open_in_editor() end, { desc = "Open file in external editor" })
+map("n", "<leader>iv", function() open_in_editor("code") end, { desc = "Open file in VS Code" })
+map("n", "<leader>ic", function() open_in_editor("cursor") end, { desc = "Open file in Cursor" })
