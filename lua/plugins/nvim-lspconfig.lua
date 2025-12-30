@@ -15,6 +15,17 @@ return {
           { "gh", vim.lsp.buf.hover },
         },
       },
+      -- 禁用 TypeScript 的自动类型获取 (ATA)
+      vtsls = {
+        settings = {
+          typescript = {
+            disableAutomaticTypeAcquisition = true,
+          },
+          javascript = {
+            disableAutomaticTypeAcquisition = true,
+          },
+        },
+      },
     },
   },
 }

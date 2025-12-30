@@ -5,15 +5,7 @@ return {
   },
   opts = {
     sources = {
-      default = { "lsp", "path", "snippets", "buffer", "copilot" },
-      providers = {
-        copilot = {
-          name = "copilot",
-          module = "blink-cmp-copilot",
-          score_offset = 100,
-          async = true,
-        },
-      },
+      default = { "lsp", "path", "snippets" }, -- 移除 buffer 禁用单词补全
     },
     completion = {
       accept = {

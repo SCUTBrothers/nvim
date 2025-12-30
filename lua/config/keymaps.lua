@@ -49,7 +49,7 @@ map("n", "cd", vim.lsp.buf.rename, { desc = "LSP Rename" })
 -- 外部编辑器配置
 -- ============================================================================
 -- 可用编辑器: "code" (VS Code), "cursor" (Cursor)
-vim.g.external_editor = "cursor"
+vim.g.external_editor = "code"
 
 local function open_in_editor(editor)
   editor = editor or vim.g.external_editor
@@ -68,13 +68,26 @@ local function open_in_editor(editor)
 end
 
 -- 用户命令
-vim.api.nvim_create_user_command("EditorHere", function() open_in_editor() end, {})
+vim.api.nvim_create_user_command("EditorHere", function()
+  open_in_editor()
+end, {})
 vim.api.nvim_create_user_command("EditorSet", function(opts)
   vim.g.external_editor = opts.args
   vim.notify("External editor set to: " .. opts.args, vim.log.levels.INFO)
-end, { nargs = 1, complete = function() return { "code", "cursor" } end })
+end, {
+  nargs = 1,
+  complete = function()
+    return { "code", "cursor" }
+  end,
+})
 
 -- 快捷键
-map("n", "<leader>io", function() open_in_editor() end, { desc = "Open file in external editor" })
-map("n", "<leader>iv", function() open_in_editor("code") end, { desc = "Open file in VS Code" })
-map("n", "<leader>ic", function() open_in_editor("cursor") end, { desc = "Open file in Cursor" })
+map("n", "<leader>io", function()
+  open_in_editor()
+end, { desc = "Open file in external editor" })
+map("n", "<leader>iv", function()
+  open_in_editor("code")
+end, { desc = "Open file in VS Code" })
+map("n", "<leader>ic", function()
+  open_in_editor("cursor")
+end, { desc = "Open file in Cursor" })

@@ -20,7 +20,10 @@
       "Bash(source ~/.nvm/nvm.sh)",
       "Bash(nvm alias:*)",
       "Bash(nvm current:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(lsof:*)",
+      "Bash(cat:*)",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ],
     "deny": []
   }
