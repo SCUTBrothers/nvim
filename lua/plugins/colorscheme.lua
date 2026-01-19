@@ -1,19 +1,42 @@
 return {
+  -- Gruvbox (当前使用)
   {
-    "catppuccin/nvim",
-    priority = 1000, -- Ensure it loads first
+    "ellisonleao/gruvbox.nvim",
+    priority = 1000,
     opts = {
-      transparent_background = true,
-      no_italic = true, -- 禁用所有斜体
-      styles = {
-        comments = {}, -- 移除注释的斜体样式
+      transparent_mode = true,
+      italic = {
+        strings = false,
+        emphasis = false,
+        comments = false,
+        operators = false,
+        folds = false,
       },
     },
   },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin",
+      colorscheme = "gruvbox",
     },
   },
+
+  -- Catppuccin (备用)
+  -- {
+  --   "catppuccin/nvim",
+  --   priority = 1000,
+  --   opts = {
+  --     transparent_background = true,
+  --     no_italic = true,
+  --     styles = {
+  --       comments = {},
+  --     },
+  --   },
+  -- },
+  -- {
+  --   "LazyVim/LazyVim",
+  --   opts = {
+  --     colorscheme = "catppuccin",
+  --   },
+  -- },
 }
