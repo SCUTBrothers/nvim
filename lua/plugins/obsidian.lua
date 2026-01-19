@@ -29,9 +29,9 @@ return {
       },
     },
 
-    -- 禁用 Obsidian 的 UI, 不需要出现符号渲染
+    -- 禁用 Obsidian 的 UI，使用 render-markdown.nvim 代替
     ui = {
-      enabled = false,
+      enable = false,
     },
 
     -- 不自动插入 yaml  frontmatter
