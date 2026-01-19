@@ -17,9 +17,6 @@ map("i", "<C-l>", "<Right>", { desc = "Move Right" })
 map("n", "<S-j>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
 map("n", "<S-k>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
 
--- 文件浏览
-map("n", "-", "<CMD>Oil --float<CR>", { desc = "Open parent directory" })
-
 -- ============================================================================
 -- 路径复制（与 VSCode 插件保持一致）
 -- ============================================================================
