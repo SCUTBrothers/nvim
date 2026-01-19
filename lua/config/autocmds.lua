@@ -11,6 +11,35 @@
 vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
 -- ============================================================================
+-- 主题自动切换 (Neovim 0.11+ Mode 2031)
+-- 深色: gruvbox, 浅色: catppuccin-latte
+-- 参考: https://github.com/neovim/neovim/issues/32109
+-- ============================================================================
+vim.api.nvim_create_autocmd("VimEnter", {
+  once = true,
+  callback = function()
+    local switching = false
+    vim.api.nvim_create_autocmd("OptionSet", {
+      pattern = "background",
+      callback = function()
+        if switching then
+          return
+        end
+        switching = true
+        vim.schedule(function()
+          local target = vim.o.background == "light" and "catppuccin-latte" or "gruvbox"
+          -- 只有当前主题不是目标主题时才切换，防止递归
+          if vim.g.colors_name ~= target then
+            pcall(vim.cmd.colorscheme, target)
+          end
+          switching = false
+        end)
+      end,
+    })
+  end,
+})
+
+-- ============================================================================
 -- 路径复制功能（与 VSCode 插件保持一致）
 -- ============================================================================
 

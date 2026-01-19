@@ -23,7 +23,9 @@
       "Bash(git add:*)",
       "Bash(lsof:*)",
       "Bash(cat:*)",
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebSearch",
+      "WebFetch(domain:github.com)"
     ],
     "deny": []
   }

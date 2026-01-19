@@ -15,7 +15,7 @@ return {
     },
   },
 
-  -- Catppuccin Latte (浅色主题)
+  -- Catppuccin (浅色主题用 latte)
   {
     "catppuccin/nvim",
     name = "catppuccin",
@@ -29,26 +29,11 @@ return {
     },
   },
 
-  -- 根据 background 自动切换主题 (Neovim 0.11+ Mode 2031)
+  -- 默认使用 gruvbox
   {
     "LazyVim/LazyVim",
-    opts = function()
-      -- 根据初始 background 设置主题
-      local colorscheme = vim.o.background == "light" and "catppuccin-latte" or "gruvbox"
-
-      -- 监听 background 变化，自动切换主题
-      vim.api.nvim_create_autocmd("OptionSet", {
-        pattern = "background",
-        callback = function()
-          if vim.o.background == "light" then
-            vim.cmd("colorscheme catppuccin-latte")
-          else
-            vim.cmd("colorscheme gruvbox")
-          end
-        end,
-      })
-
-      return { colorscheme = colorscheme }
-    end,
+    opts = {
+      colorscheme = "gruvbox",
+    },
   },
 }
