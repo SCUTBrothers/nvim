@@ -11,9 +11,10 @@
 vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
 -- ============================================================================
--- 主题自动切换 (Neovim 0.11+ Mode 2031)
+-- 主题自动切换 (运行时)
 -- 深色: gruvbox, 浅色: catppuccin-latte
--- 参考: https://github.com/neovim/neovim/issues/32109
+-- 初始主题在 colorscheme.lua 中根据系统主题设置
+-- 这里监听 background 变化（Mode 2031）实时切换
 -- ============================================================================
 vim.api.nvim_create_autocmd("VimEnter", {
   once = true,
@@ -28,7 +29,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
         switching = true
         vim.schedule(function()
           local target = vim.o.background == "light" and "catppuccin-latte" or "gruvbox"
-          -- 只有当前主题不是目标主题时才切换，防止递归
           if vim.g.colors_name ~= target then
             pcall(vim.cmd.colorscheme, target)
           end
