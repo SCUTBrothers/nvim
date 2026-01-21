@@ -13,6 +13,9 @@ end
 vim.opt.list = false
 vim.opt.relativenumber = true
 
+-- [feat(copilot-native): added experimental support for next edit sugges… · LazyVim/LazyVim@c83df9e](https://github.com/LazyVim/LazyVim/commit/c83df9e68dd41f5a3f7df5a7048169ee286a7da8)
+vim.g.copilot_nes = false
+
 -- 根据环境变量设置背景色
 -- local theme_mode = vim.env.THEME_MODE or "dark" -- 默认深色主题
 -- vim.opt.background = theme_mode

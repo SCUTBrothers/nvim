@@ -1,16 +1,3 @@
--- 检测 macOS 系统主题
-local function get_system_colorscheme()
-  local handle = io.popen("defaults read -g AppleInterfaceStyle 2>/dev/null")
-  if handle then
-    local result = handle:read("*a")
-    handle:close()
-    if result:match("Dark") then
-      return "gruvbox"
-    end
-  end
-  return "catppuccin-latte"
-end
-
 return {
   -- Gruvbox (深色主题)
   {
@@ -42,11 +29,19 @@ return {
     },
   },
 
-  -- 根据系统主题设置 colorscheme
+  -- 自动检测系统主题并切换
   {
-    "LazyVim/LazyVim",
+    "f-person/auto-dark-mode.nvim",
     opts = {
-      colorscheme = get_system_colorscheme(),
+      update_interval = 1000,
+      set_dark_mode = function()
+        vim.o.background = "dark"
+        vim.cmd.colorscheme("gruvbox")
+      end,
+      set_light_mode = function()
+        vim.o.background = "light"
+        vim.cmd.colorscheme("catppuccin-latte")
+      end,
     },
   },
 }

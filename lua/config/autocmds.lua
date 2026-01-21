@@ -11,35 +11,6 @@
 vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
 -- ============================================================================
--- 主题自动切换 (运行时)
--- 深色: gruvbox, 浅色: catppuccin-latte
--- 初始主题在 colorscheme.lua 中根据系统主题设置
--- 这里监听 background 变化（Mode 2031）实时切换
--- ============================================================================
-vim.api.nvim_create_autocmd("VimEnter", {
-  once = true,
-  callback = function()
-    local switching = false
-    vim.api.nvim_create_autocmd("OptionSet", {
-      pattern = "background",
-      callback = function()
-        if switching then
-          return
-        end
-        switching = true
-        vim.schedule(function()
-          local target = vim.o.background == "light" and "catppuccin-latte" or "gruvbox"
-          if vim.g.colors_name ~= target then
-            pcall(vim.cmd.colorscheme, target)
-          end
-          switching = false
-        end)
-      end,
-    })
-  end,
-})
-
--- ============================================================================
 -- 路径复制功能（与 VSCode 插件保持一致）
 -- ============================================================================
 

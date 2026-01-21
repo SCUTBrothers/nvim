@@ -335,5 +335,13 @@
     "body": [
       "🔖"
     ]
+  },
+  "markdown block": {
+    "prefix": "markdown",
+    "body": [
+      "````markdown",
+      "$0",
+      "````"
+    ]
   }
 }
