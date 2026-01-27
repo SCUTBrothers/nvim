@@ -100,37 +100,33 @@ vim.api.nvim_create_user_command("CopyFolderAbsolute", function()
   print("已复制: " .. path)
 end, {})
 
--- 创建自动命令组
+-- 输入法自动切换（异步执行，不阻塞 UI）
 local im_select_group = vim.api.nvim_create_augroup("im_select", { clear = true })
-
--- 在退出插入模式时切换到英文输入法
-vim.api.nvim_create_autocmd("InsertLeave", {
-  group = im_select_group,
-  callback = function()
-    -- 设置按键序列的超时时间（毫秒）: 当你输入一个可能是映射开头的按键时，Vim 会等待 timeoutlen 毫秒来判断你是否要输入一个完整的按键映射
-    -- 这个可能会导致其他的remap映射失效
-    -- vim.opt.timeoutlen = 0
-    vim.fn.system("/opt/homebrew/bin/macism com.apple.keylayout.ABC")
-  end,
-})
-
--- 保存上一次的输入法状态
 local last_im_select = ""
+local macism = "/opt/homebrew/bin/macism"
+local english_im = "com.apple.keylayout.ABC"
 
--- 在退出插入模式时保存当前输入法状态
 vim.api.nvim_create_autocmd("InsertLeave", {
   group = im_select_group,
   callback = function()
-    last_im_select = vim.fn.system("/opt/homebrew/bin/macism")
+    -- 异步获取当前输入法并切换到英文
+    vim.fn.jobstart({ macism }, {
+      stdout_buffered = true,
+      on_stdout = function(_, data)
+        last_im_select = (data and data[1] or ""):gsub("%s+$", "")
+        if last_im_select ~= english_im then
+          vim.fn.jobstart({ macism, english_im })
+        end
+      end,
+    })
   end,
 })
 
--- 在进入插入模式时恢复输入法状态
 vim.api.nvim_create_autocmd("InsertEnter", {
   group = im_select_group,
   callback = function()
-    if last_im_select ~= "" then
-      vim.fn.system("/opt/homebrew/bin/macism " .. last_im_select)
+    if last_im_select ~= "" and last_im_select ~= english_im then
+      vim.fn.jobstart({ macism, last_im_select })
     end
   end,
 })

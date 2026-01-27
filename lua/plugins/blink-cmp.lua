@@ -1,24 +1,31 @@
 return {
   "saghen/blink.cmp",
-  dependencies = {
-    "giuxtaposition/blink-cmp-copilot",
-  },
   opts = {
     sources = {
-      default = { "snippets", "lsp", "path" }, -- snippets 优先，移除 buffer
+      default = { "lsp", "snippets", "path" },
       providers = {
         snippets = {
-          score_offset = 100, -- 提高 snippets 优先级
+          score_offset = 80,
         },
       },
     },
     completion = {
       accept = {
-        -- 禁用自动插入函数参数
-        auto_brackets = {
-          enabled = false,
+        auto_brackets = { enabled = false },
+      },
+      documentation = {
+        auto_show = true,
+        auto_show_delay_ms = 100,
+      },
+      -- 避免与 copilot-native inline suggestion 冲突
+      ghost_text = { enabled = false },
+      menu = {
+        draw = {
+          treesitter = { "lsp" },
         },
       },
     },
+    -- 函数参数提示
+    signature = { enabled = true },
   },
 }
