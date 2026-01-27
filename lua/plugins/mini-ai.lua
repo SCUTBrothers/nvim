@@ -17,6 +17,14 @@ return {
       return { from = from, to = to }
     end
 
+    -- 添加 | 作为 markdown table cell 的 textobject
+    -- di| 删除单元格内容, ci| 修改单元格内容
+    opts.custom_textobjects["|"] = { "%|().-()%|" }
+
+    -- 添加 L 作为 URL/Link 的 textobject
+    -- diL 删除 URL, ciL 修改 URL, yiL 复制 URL
+    opts.custom_textobjects["L"] = { "https?://[^%s<>\"'`%)%]]*" }
+
     -- 添加 c 作为 markdown code block 的 textobject
     opts.custom_textobjects.c = function(ai_type)
       local current_line = vim.fn.line(".")

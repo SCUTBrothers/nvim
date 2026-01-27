@@ -1,21 +1,5 @@
 return {
-  -- Gruvbox (深色主题)
-  {
-    "ellisonleao/gruvbox.nvim",
-    priority = 1000,
-    opts = {
-      transparent_mode = true,
-      italic = {
-        strings = false,
-        emphasis = false,
-        comments = false,
-        operators = false,
-        folds = false,
-      },
-    },
-  },
-
-  -- Catppuccin (浅色主题用 latte)
+  -- Catppuccin (深色: mocha, 浅色: latte)
   {
     "catppuccin/nvim",
     name = "catppuccin",
@@ -36,7 +20,7 @@ return {
       update_interval = 1000,
       set_dark_mode = function()
         vim.o.background = "dark"
-        vim.cmd.colorscheme("gruvbox")
+        vim.cmd.colorscheme("catppuccin-mocha")
       end,
       set_light_mode = function()
         vim.o.background = "light"

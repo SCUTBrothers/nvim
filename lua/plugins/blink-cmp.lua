@@ -5,7 +5,12 @@ return {
   },
   opts = {
     sources = {
-      default = { "lsp", "path", "snippets" }, -- 移除 buffer 禁用单词补全
+      default = { "snippets", "lsp", "path" }, -- snippets 优先，移除 buffer
+      providers = {
+        snippets = {
+          score_offset = 100, -- 提高 snippets 优先级
+        },
+      },
     },
     completion = {
       accept = {

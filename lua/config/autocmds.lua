@@ -11,6 +11,36 @@
 vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
 -- ============================================================================
+-- 大文件保护：禁止打开超大文件（默认 10MB）
+-- ============================================================================
+local max_file_size = 10 * 1024 * 1024 -- 10MB
+
+vim.api.nvim_create_autocmd("BufReadPre", {
+  callback = function(args)
+    local file = args.file
+    local ok, stats = pcall(vim.uv.fs_stat, file)
+    if ok and stats and stats.size > max_file_size then
+      vim.notify(
+        string.format(
+          "文件过大 (%.1fMB)，已阻止打开: %s",
+          stats.size / 1024 / 1024,
+          vim.fn.fnamemodify(file, ":t")
+        ),
+        vim.log.levels.WARN
+      )
+      -- 阻止加载文件内容
+      vim.cmd("setlocal bufhidden=wipe")
+      vim.schedule(function()
+        if vim.api.nvim_buf_is_valid(args.buf) then
+          vim.api.nvim_buf_delete(args.buf, { force = true })
+        end
+      end)
+      return true
+    end
+  end,
+})
+
+-- ============================================================================
 -- 路径复制功能（与 VSCode 插件保持一致）
 -- ============================================================================
 
