@@ -7,6 +7,11 @@ local map = vim.keymap.set
 vim.keymap.del({ "i", "n", "v" }, "<A-j>")
 vim.keymap.del({ "i", "n", "v" }, "<A-k>")
 
+-- tmux popup 中按 Alt+` 退出 neovim（先保存再退出）
+if vim.env.TMUX_POPUP then
+  map({ "n", "i", "v", "t" }, "<A-`>", "<cmd>wa<cr><cmd>qa<cr>", { desc = "Exit popup" })
+end
+
 -- 基础移动映射
 map("n", "H", "^", { desc = "move to line start" })
 map("n", "L", "$", { desc = "move to line start" })

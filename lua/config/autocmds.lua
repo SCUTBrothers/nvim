@@ -11,6 +11,18 @@
 vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
 -- ============================================================================
+-- 自动检测外部文件变化并重新加载
+-- ============================================================================
+vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
+  group = vim.api.nvim_create_augroup("checktime", { clear = true }),
+  callback = function()
+    if vim.o.buftype ~= "nofile" then
+      vim.cmd("checktime")
+    end
+  end,
+})
+
+-- ============================================================================
 -- 大文件保护：禁止打开超大文件（默认 10MB）
 -- ============================================================================
 local max_file_size = 10 * 1024 * 1024 -- 10MB
