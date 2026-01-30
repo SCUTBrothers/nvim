@@ -6,14 +6,11 @@ return {
     -- 更精确的 snippet 退出检测
     opts.delete_check_events = "TextChanged,InsertLeave"
 
-    -- snippet stop 视觉增强
+    -- snippet stop 视觉增强（仅虚拟文本，无背景色）
     opts.ext_opts = {
       [types.insertNode] = {
         active = {
           virt_text = { { "|", "CursorLineNr" } },
-        },
-        passive = {
-          hl_group = "CurSearch",
         },
       },
       [types.choiceNode] = {

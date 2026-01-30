@@ -17,6 +17,25 @@ map("i", "<C-l>", "<Right>", { desc = "Move Right" })
 map("n", "<S-j>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
 map("n", "<S-k>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
 
+-- q: 保存并关闭当前 buffer（替代宏录制）
+map("n", "q", function()
+  -- 如果是特殊 buffer（帮助、quickfix 等），直接关闭
+  local bt = vim.bo.buftype
+  if bt ~= "" then
+    vim.cmd("close")
+    return
+  end
+
+  -- 保存文件（如果有修改且有文件名）
+  local bufname = vim.api.nvim_buf_get_name(0)
+  if bufname ~= "" and vim.bo.modified then
+    vim.cmd("write")
+  end
+
+  -- 关闭 buffer
+  Snacks.bufdelete()
+end, { desc = "Save and close buffer" })
+
 -- ============================================================================
 -- 路径复制（与 VSCode 插件保持一致）
 -- ============================================================================

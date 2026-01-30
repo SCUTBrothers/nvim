@@ -1,6 +1,19 @@
 return {
   "saghen/blink.cmp",
   opts = {
+    keymap = {
+      -- 使用 enter 预设，但禁用 Tab 选择补全项
+      preset = "enter",
+      ["<Tab>"] = {
+        -- 仅保留 snippet 跳转和 copilot 接受，移除补全选择
+        LazyVim.cmp.map({ "snippet_forward", "ai_accept" }),
+        "fallback",
+      },
+      ["<S-Tab>"] = {
+        LazyVim.cmp.map({ "snippet_backward" }),
+        "fallback",
+      },
+    },
     sources = {
       default = { "lsp", "snippets", "path" },
       providers = {
