@@ -26,6 +26,6 @@ return {
       },
     },
     -- 函数参数提示
-    signature = { enabled = true },
+    signature = { enabled = false },
   },
 }
