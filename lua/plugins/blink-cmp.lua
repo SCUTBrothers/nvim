@@ -4,6 +4,7 @@ return {
     keymap = {
       -- 使用 enter 预设，但禁用 Tab 选择补全项
       preset = "enter",
+      ["<CR>"] = { "accept", "fallback" },
       ["<Tab>"] = {
         -- 仅保留 snippet 跳转和 copilot 接受，移除补全选择
         LazyVim.cmp.map({ "snippet_forward", "ai_accept" }),
@@ -34,7 +35,8 @@ return {
       ghost_text = { enabled = false },
       menu = {
         draw = {
-          treesitter = { "lsp" },
+          -- 禁用 treesitter 高亮（空表表示不对任何来源使用 treesitter）
+          treesitter = {},
         },
       },
     },

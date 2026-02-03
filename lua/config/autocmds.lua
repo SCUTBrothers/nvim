@@ -13,12 +13,20 @@ vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 -- ============================================================================
 -- 自动检测外部文件变化并重新加载
 -- ============================================================================
-vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
+vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave", "CursorHold" }, {
   group = vim.api.nvim_create_augroup("checktime", { clear = true }),
   callback = function()
     if vim.o.buftype ~= "nofile" then
       vim.cmd("checktime")
     end
+  end,
+})
+
+-- 文件变化提醒
+vim.api.nvim_create_autocmd("FileChangedShellPost", {
+  group = vim.api.nvim_create_augroup("file_changed_shell", { clear = true }),
+  callback = function()
+    vim.notify("File changed on disk. Buffer reloaded.", vim.log.levels.WARN)
   end,
 })
 

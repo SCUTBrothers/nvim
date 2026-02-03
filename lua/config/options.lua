@@ -10,14 +10,7 @@ vim.opt.autoread = true
 vim.opt.iskeyword:append("-")
 
 -- 禁用 copilot next edit suggestions
-vim.g.copilot_nes = false
-
--- 诊断显示样式：只显示行号标记，不在代码上加下划线
-vim.diagnostic.config({
-  underline = false, -- 禁用下划线
-  virtual_text = false, -- 禁用行尾虚拟文本
-  signs = true, -- 保留行号左侧的标记
-})
+vim.g.copilot_nes = true
 
 -- 启动 nvim server，供外部工具调用（如 code-inspector-plugin）
 -- 根据项目目录生成唯一 socket 路径，支持多项目并行开发
