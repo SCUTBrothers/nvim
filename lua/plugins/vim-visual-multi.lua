@@ -1,7 +1,6 @@
 return {
   "mg979/vim-visual-multi",
   branch = "master",
-  event = { "BufReadPost", "BufNewFile" },
   keys = {
     { "<C-n>", mode = { "n", "x" }, desc = "Add cursor down" },
     { "<C-p>", mode = { "n", "x" }, desc = "Add cursor up" },

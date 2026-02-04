@@ -9,6 +9,9 @@ vim.opt.clipboard = "unnamedplus"
 vim.opt.autoread = true
 vim.opt.iskeyword:append("-")
 
+-- 大文件滚动优化
+vim.opt.synmaxcol = 300 -- 语法高亮最大列数，超出部分不高亮
+
 -- 禁用 copilot next edit suggestions
 vim.g.copilot_nes = true
 
