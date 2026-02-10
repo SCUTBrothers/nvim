@@ -6,8 +6,8 @@ return {
       preset = "enter",
       ["<CR>"] = { "accept", "fallback" },
       ["<Tab>"] = {
-        -- 仅保留 snippet 跳转和 copilot 接受，移除补全选择
         LazyVim.cmp.map({ "snippet_forward", "ai_accept" }),
+        "accept",
         "fallback",
       },
       ["<S-Tab>"] = {
@@ -16,14 +16,19 @@ return {
       },
     },
     sources = {
-      default = { "lsp", "snippets", "path" },
-      providers = {
-        snippets = {
-          score_offset = 80,
-        },
-      },
+      default = { "lsp", "path" },
+      -- 过滤掉 Text 和 LSP 返回的 Snippet 类型补全项（保留 snippets 源自身的）
+      transform_items = function(_, items)
+        local kind = require("blink.cmp.types").CompletionItemKind
+        return vim.tbl_filter(function(item)
+          if item.kind == kind.Text then return false end
+          if item.kind == kind.Snippet and item.source_id ~= "snippets" then return false end
+          return true
+        end, items)
+      end,
     },
     completion = {
+      list = { max_items = 15 },
       accept = {
         auto_brackets = { enabled = false },
       },

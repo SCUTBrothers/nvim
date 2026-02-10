@@ -120,45 +120,6 @@ vim.api.nvim_create_user_command("CopyFolderAbsolute", function()
   print("已复制: " .. path)
 end, {})
 
--- 输入法自动切换（异步执行，不阻塞 UI）
-local im_select_group = vim.api.nvim_create_augroup("im_select", { clear = true })
-local last_im_select = ""
-local macism = "/opt/homebrew/bin/macism"
-local english_im = "com.apple.keylayout.ABC"
-
-vim.api.nvim_create_autocmd("InsertLeave", {
-  group = im_select_group,
-  callback = function()
-    -- 异步获取当前输入法并切换到英文
-    vim.fn.jobstart({ macism }, {
-      stdout_buffered = true,
-      on_stdout = function(_, data)
-        last_im_select = (data and data[1] or ""):gsub("%s+$", "")
-        if last_im_select ~= english_im then
-          vim.fn.jobstart({ macism, english_im })
-        end
-      end,
-    })
-  end,
-})
-
-vim.api.nvim_create_autocmd("InsertEnter", {
-  group = im_select_group,
-  callback = function()
-    if last_im_select ~= "" and last_im_select ~= english_im then
-      vim.fn.jobstart({ macism, last_im_select })
-    end
-  end,
-})
-
--- 移除注释行创建新行的时候自动添加注释前缀
--- 移除自动注释选项
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "*",
-  callback = function()
-    vim.opt_local.formatoptions:remove({ "o", "r" })
-  end,
-})
 
 -- ============================================================================
 -- Markdown ↔ Tree 转换功能

@@ -12,8 +12,11 @@ vim.opt.iskeyword:append("-")
 -- 大文件滚动优化
 vim.opt.synmaxcol = 300 -- 语法高亮最大列数，超出部分不高亮
 
+-- 启用 LSP 输入时自动格式化（需要 LSP 支持 textDocument/onTypeFormatting）
+vim.lsp.on_type_formatting.enable()
+
 -- 禁用 copilot next edit suggestions
-vim.g.copilot_nes = true
+vim.g.copilot_nes = false
 
 -- 启动 nvim server，供外部工具调用（如 code-inspector-plugin）
 -- 根据项目目录生成唯一 socket 路径，支持多项目并行开发
