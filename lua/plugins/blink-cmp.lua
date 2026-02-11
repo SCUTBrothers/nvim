@@ -6,8 +6,8 @@ return {
       preset = "enter",
       ["<CR>"] = { "accept", "fallback" },
       ["<Tab>"] = {
-        LazyVim.cmp.map({ "snippet_forward", "ai_accept" }),
         "accept",
+        LazyVim.cmp.map({ "snippet_forward", "ai_accept" }),
         "fallback",
       },
       ["<S-Tab>"] = {
