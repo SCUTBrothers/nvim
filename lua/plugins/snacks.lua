@@ -5,6 +5,13 @@ return {
       words = {
         enabled = false,
       },
+      image = {
+        enabled = true,
+        doc = {
+          inline = true,
+          float = true,
+        },
+      },
     },
   },
 }
