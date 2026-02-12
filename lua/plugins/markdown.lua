@@ -1,10 +1,13 @@
 return {
   "MeanderingProgrammer/render-markdown.nvim",
   opts = {
-    -- 默认禁用，需要时用 :RenderMarkdown toggle 开启
-    enabled = false,
+    enabled = true,
     -- 使用 obsidian 预设，模拟 Obsidian 编辑器的 UI 风格
     preset = "obsidian",
+    -- 关闭 code block 渲染，避免隐藏尾部 ``` 导致编辑位置错误
+    code = {
+      enabled = false,
+    },
     -- WikiLink 渲染配置
     link = {
       wiki = {
