@@ -2,7 +2,7 @@
 return {
   dir = "~/Documents/leetcode-nvim",
   dependencies = { "ibhagwan/fzf-lua" },
-  cmd = { "LCList", "LCOpen", "LCRun", "LCSubmit", "LCDesc", "LCAuth", "LCInfo" },
+  cmd = { "LCList", "LCOpen", "LCRun", "LCSubmit", "LCDesc", "LCAuth", "LCInfo", "LCPractice" },
   keys = {
     { "<leader>kl", "<cmd>LCList<cr>", desc = "LeetCode: Browse problems" },
     { "<leader>ko", ":LCOpen ", desc = "LeetCode: Open by ID" },
@@ -11,6 +11,7 @@ return {
     { "<leader>kd", "<cmd>LCDesc<cr>", desc = "LeetCode: Problem description" },
     { "<leader>ki", "<cmd>LCInfo<cr>", desc = "LeetCode: Problem info" },
     { "<leader>ka", "<cmd>LCAuth<cr>", desc = "LeetCode: Set cookie" },
+    { "<leader>kp", ":LCPractice ", desc = "LeetCode: Practice by ID (reset)" },
   },
   opts = {
     workspace = vim.fn.expand("~/Documents/obsidian-workspace/programming/leetcode/workspace"),

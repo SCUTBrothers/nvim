@@ -8,6 +8,7 @@ vim.opt.conceallevel = 2
 vim.opt.clipboard = "unnamedplus"
 vim.opt.autoread = true
 vim.opt.iskeyword:append("-")
+vim.opt.swapfile = false
 
 -- 大文件滚动优化
 vim.opt.synmaxcol = 300 -- 语法高亮最大列数，超出部分不高亮

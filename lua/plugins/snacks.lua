@@ -8,10 +8,12 @@ return {
       image = {
         enabled = true,
         doc = {
-          inline = true,
-          float = true,
+          enabled = false,
         },
       },
+    },
+    keys = {
+      { "gm", function() Snacks.image.hover() end, desc = "Show image under cursor" },
     },
   },
 }

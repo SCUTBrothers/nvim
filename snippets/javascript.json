@@ -252,5 +252,21 @@
       "  $0",
       "}"
     ]
+  },
+  "forof": {
+    "prefix": "forof",
+    "body": [
+      "for (const ${1:item} of ${2:items}) {",
+      "  $0",
+      "}"
+    ]
+  },
+  "while": {
+    "prefix": "while",
+    "body": [
+      "while (${1:condition}) {",
+      "  $0",
+      "}"
+    ]
   }
 }

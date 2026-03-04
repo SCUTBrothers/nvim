@@ -13,9 +13,8 @@ if vim.env.TMUX_POPUP then
 end
 
 -- 基础移动映射
-map("n", "H", "^", { desc = "move to line start" })
-map("n", "L", "$", { desc = "move to line start" })
-map("n", "yL", "yg_", { desc = "move to line end" })
+map({ "n", "v", "o" }, "H", "^", { desc = "Move to line start" })
+map({ "n", "v", "o" }, "L", "g_", { desc = "Move to line end" })
 map("i", "<C-l>", "<Right>", { desc = "Move Right" })
 
 -- buffer操作

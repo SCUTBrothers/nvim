@@ -29,65 +29,65 @@ return {
     -- vah/dah 选择当前 section（标题 + 内容直到下一个同级或更高级标题）
     -- vih/dih 只选择内容（不含标题行）
     opts.custom_textobjects.h = function(ai_type)
-      local current_line = vim.fn.line(".")
       local total_lines = vim.fn.line("$")
 
-      -- 向上查找当前所属的标题行
-      local heading_line = nil
-      local heading_level = nil
-      for i = current_line, 1, -1 do
+      -- 收集所有 heading 的位置和级别
+      local headings = {}
+      for i = 1, total_lines do
         local line = vim.fn.getline(i)
         local level = line:match("^(#+)%s")
         if level then
-          heading_line = i
-          heading_level = #level
-          break
+          table.insert(headings, { line = i, level = #level })
         end
       end
 
-      if not heading_line then
-        return nil -- 不在任何 section 内
+      if #headings == 0 then
+        return nil
       end
 
-      -- 向下查找 section 结束位置（下一个同级或更高级标题之前）
-      local end_line = total_lines
-      for i = heading_line + 1, total_lines do
-        local line = vim.fn.getline(i)
-        local level = line:match("^(#+)%s")
-        if level and #level <= heading_level then
-          end_line = i - 1
-          break
+      -- 为每个 heading 构建 section region
+      local regions = {}
+      for idx, h in ipairs(headings) do
+        -- section 结束位置：下一个同级或更高级标题之前，或文件末尾
+        local end_line = total_lines
+        for j = idx + 1, #headings do
+          if headings[j].level <= h.level then
+            end_line = headings[j].line - 1
+            break
+          end
+        end
+
+        -- 去除尾部空行
+        while end_line > h.line and vim.fn.getline(end_line):match("^%s*$") do
+          end_line = end_line - 1
+        end
+
+        if ai_type == "i" then
+          local content_start = h.line + 1
+          while content_start <= end_line and vim.fn.getline(content_start):match("^%s*$") do
+            content_start = content_start + 1
+          end
+          if content_start <= end_line then
+            table.insert(regions, {
+              from = { line = content_start, col = 1 },
+              to = { line = end_line, col = math.max(vim.fn.getline(end_line):len(), 1) },
+              vis_mode = "V",
+            })
+          end
+        else
+          table.insert(regions, {
+            from = { line = h.line, col = 1 },
+            to = { line = end_line, col = math.max(vim.fn.getline(end_line):len(), 1) },
+            vis_mode = "V",
+          })
         end
       end
 
-      -- 去除尾部空行
-      while end_line > heading_line and vim.fn.getline(end_line):match("^%s*$") do
-        end_line = end_line - 1
+      if #regions == 0 then
+        return nil
       end
 
-      if ai_type == "i" then
-        -- inner: 只包含内容（不含标题行）
-        local content_start = heading_line + 1
-        -- 跳过标题后的空行
-        while content_start <= end_line and vim.fn.getline(content_start):match("^%s*$") do
-          content_start = content_start + 1
-        end
-        if content_start > end_line then
-          return nil -- section 没有内容
-        end
-        return {
-          from = { line = content_start, col = 1 },
-          to = { line = end_line, col = math.max(vim.fn.getline(end_line):len(), 1) },
-          vis_mode = "V",
-        }
-      else
-        -- around: 包含标题行
-        return {
-          from = { line = heading_line, col = 1 },
-          to = { line = end_line, col = math.max(vim.fn.getline(end_line):len(), 1) },
-          vis_mode = "V",
-        }
-      end
+      return regions
     end
 
     -- 添加 c 作为 markdown code block 的 textobject
