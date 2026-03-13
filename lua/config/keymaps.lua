@@ -30,6 +30,30 @@ map("n", "q", function()
     return
   end
 
+  -- 如果在 diff 模式中，关闭所有 diff 相关的 buffer/window
+  if vim.wo.diff then
+    local current_buf = vim.api.nvim_get_current_buf()
+    local diff_wins = {}
+    for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+      if vim.wo[win].diff then
+        table.insert(diff_wins, { win = win, buf = vim.api.nvim_win_get_buf(win) })
+      end
+    end
+    -- 关闭 diff 模式
+    vim.cmd("diffoff!")
+    -- 关闭非当前 buffer 的 diff window（git index buffer）
+    for _, dw in ipairs(diff_wins) do
+      if dw.buf ~= current_buf and vim.api.nvim_win_is_valid(dw.win) then
+        vim.api.nvim_win_close(dw.win, true)
+      end
+      -- 清理 git index 临时 buffer
+      if dw.buf ~= current_buf and vim.api.nvim_buf_is_valid(dw.buf) then
+        vim.api.nvim_buf_delete(dw.buf, { force = true })
+      end
+    end
+    return
+  end
+
   -- 保存文件（如果有修改且有文件名）
   local bufname = vim.api.nvim_buf_get_name(0)
   if bufname ~= "" and vim.bo.modified then
@@ -55,6 +79,40 @@ map("n", "<leader>yfa", "<cmd>CopyFolderAbsolute<cr>", { desc = "Copy folder abs
 -- Visual 模式（带行号）
 map("v", "<leader>yy", "<cmd>CopyFileRelative<cr>", { desc = "Copy file relative path with line numbers" })
 map("v", "<leader>ya", "<cmd>CopyFileAbsolute<cr>", { desc = "Copy file absolute path with line numbers" })
+
+-- ============================================================================
+-- 复制 Diagnostics 文本到剪贴板
+-- ============================================================================
+local function format_diagnostic(d)
+  local severity = vim.diagnostic.severity[d.severity] or "UNKNOWN"
+  local source = d.source or ""
+  local code = d.code and (" [" .. d.code .. "]") or ""
+  return string.format("%s:%d: %s: %s%s %s", vim.fn.fnamemodify(vim.api.nvim_buf_get_name(d.bufnr), ":~:."), d.lnum + 1, severity, source, code, d.message)
+end
+
+map("n", "<leader>ydf", function()
+  local diagnostics = vim.diagnostic.get(0)
+  if #diagnostics == 0 then
+    vim.notify("No diagnostics in current buffer", vim.log.levels.INFO)
+    return
+  end
+  local lines = vim.tbl_map(format_diagnostic, diagnostics)
+  local text = table.concat(lines, "\n")
+  vim.fn.setreg("+", text)
+  vim.notify(string.format("Copied %d diagnostics", #diagnostics), vim.log.levels.INFO)
+end, { desc = "Copy buffer diagnostics" })
+
+map("n", "<leader>yda", function()
+  local diagnostics = vim.diagnostic.get()
+  if #diagnostics == 0 then
+    vim.notify("No diagnostics in workspace", vim.log.levels.INFO)
+    return
+  end
+  local lines = vim.tbl_map(format_diagnostic, diagnostics)
+  local text = table.concat(lines, "\n")
+  vim.fn.setreg("+", text)
+  vim.notify(string.format("Copied %d diagnostics", #diagnostics), vim.log.levels.INFO)
+end, { desc = "Copy all diagnostics" })
 
 -- terminal
 vim.keymap.del("n", "<leader>ft")

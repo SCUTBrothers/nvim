@@ -1,6 +1,18 @@
 return {
   "nvim-neo-tree/neo-tree.nvim",
   opts = {
+    window = {
+      mappings = {
+        ["F"] = {
+          command = function(state)
+            local node = state.tree:get_node()
+            local path = node:get_id()
+            vim.fn.system({ "open", "-R", path })
+          end,
+          desc = "Reveal in Finder",
+        },
+      },
+    },
     filesystem = {
       filtered_items = {
         visible = true, -- 默认显示隐藏文件（灰色），按 H 切换
