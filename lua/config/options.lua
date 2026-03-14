@@ -6,6 +6,21 @@ vim.opt.relativenumber = true
 vim.opt.hlsearch = false
 vim.opt.conceallevel = 2
 vim.opt.clipboard = "unnamedplus"
+
+-- SSH 环境下使用 OSC 52 同步剪贴板到客户端
+if os.getenv("SSH_CONNECTION") then
+  vim.g.clipboard = {
+    name = "OSC 52",
+    copy = {
+      ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+      ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+    },
+    paste = {
+      ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+      ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+    },
+  }
+end
 vim.opt.autoread = true
 vim.opt.iskeyword:append("-")
 vim.opt.swapfile = false
