@@ -1,7 +1,7 @@
 return {
   "MeanderingProgrammer/render-markdown.nvim",
   opts = {
-    enabled = true,
+    enabled = false,
     -- 使用 obsidian 预设，模拟 Obsidian 编辑器的 UI 风格
     preset = "obsidian",
     -- 关闭 code block 渲染，避免隐藏尾部 ``` 导致编辑位置错误
